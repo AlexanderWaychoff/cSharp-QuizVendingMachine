@@ -19,6 +19,7 @@ namespace VendingMachine
         bool hasDimes = true;
         bool hasNickels = true;
         bool hasPennies = true;
+        bool transactionFailed = false;
         public int pennies = 0;
         public int nickels = 0;
         public int dimes = 0;
@@ -31,6 +32,9 @@ namespace VendingMachine
         private double grapeSodaCost = 0.60;
         private double orangeSodaCost = 0.35;
         private double lemonSodaCost = 0.06;
+        public int grapeSodaCount = 10;
+        public int orangeSodaCount = 10;
+        public int lemonSodaCount = 10;
         public SodaMachine()
         {
             availableChange = new MachineCoinStock(50, 20, 10, 20);
@@ -93,34 +97,47 @@ namespace VendingMachine
         }
         public void BuySoda(string playerInput, Wallet wallet)
         {
-            if(totalValue >= grapeSodaCost && playerInput == "grape")
+            if(totalValue >= grapeSodaCost && playerInput == "grape" && grapeSodaCount > 0)
             {
                 RemoveInsertedCoins(grapeSodaCost, wallet);
                 ReturnChange(wallet);
                 ClearInsertedCoins();
-                Console.WriteLine("Enjoy your grape soda.\n\n");
+                if (!transactionFailed)
+                {
+                    Console.WriteLine("Enjoy your grape soda.\n\n");
+                    grapeSodaCount -= 1;
+                }
             }
-            else if (totalValue >= orangeSodaCost && playerInput == "orange")
+            else if (totalValue >= orangeSodaCost && playerInput == "orange" && orangeSodaCount > 0)
             {
                 RemoveInsertedCoins(orangeSodaCost, wallet);
                 ReturnChange(wallet);
                 ClearInsertedCoins();
-                Console.WriteLine("Enjoy your orange soda.\n\n");
+                if (!transactionFailed)
+                {
+                    Console.WriteLine("Enjoy your orange soda.\n\n");
+                    orangeSodaCount -= 1;
+                }
             }
-            else if (totalValue >= lemonSodaCost && playerInput == "lemon")
+            else if (totalValue >= lemonSodaCost && playerInput == "lemon" && lemonSodaCount > 0)
             {
                 RemoveInsertedCoins(lemonSodaCost, wallet);
                 ReturnChange(wallet);
                 ClearInsertedCoins();
-                Console.WriteLine("Enjoy your lemon soda.\n\n");
+                if (!transactionFailed)
+                {
+                    Console.WriteLine("Enjoy your lemon soda.\n\n");
+                    lemonSodaCount -= 1;
+                }
             }
             else
             {
-                Console.WriteLine("You don't have enough inserted to buy any soda yet.");
+                Console.WriteLine("You don't have enough inserted to buy any soda yet or the vending machine is out of stock.");
             }
         }
         private void RemoveInsertedCoins(double sodaCost, Wallet wallet)
         {
+            transactionFailed = false;
             backupInsertedCoins = insertedCoins;
             while(sodaCost >= 0.01)
             {
@@ -155,25 +172,29 @@ namespace VendingMachine
                 {
                     removedQuarters += 1;
                     availableChange.quarters.RemoveAt(0);
+                    wallet.quarters.Add(quarter);
                     sodaCost += quarter.worth;
                 }
                 else if (sodaCost <= dime.worth * -1 && hasDimes)
                 {
                     removedDimes += 1;
                     availableChange.dimes.RemoveAt(0);
+                    wallet.dimes.Add(quarter);
                     sodaCost += dime.worth;
                 }
                 else if (sodaCost <= nickel.worth * -1 && hasNickels)
                 {
                     removedNickels += 1;
                     availableChange.nickels.RemoveAt(0);
+                    wallet.nickels.Add(quarter);
                     sodaCost += nickel.worth;
                 }
-                else if (sodaCost <= quarter.worth * -1 && hasNickels)
+                else if (sodaCost <= penny.worth * -1 && hasPennies)
                 {
                     removedPennies += 1;
-                    availableChange.quarters.RemoveAt(0);
-                    sodaCost += quarter.worth;
+                    availableChange.pennies.RemoveAt(0);
+                    wallet.pennies.Add(quarter);
+                    sodaCost += penny.worth;
                 }
                 else
                 {
@@ -181,6 +202,7 @@ namespace VendingMachine
                     ReturnChange(wallet);
                     Console.WriteLine("There isn't enough change available in the vending machine to complete this transaction.  Refunding money.\n\n");
                     ResetChange();
+                    transactionFailed = true;
                 }
             }
         }
