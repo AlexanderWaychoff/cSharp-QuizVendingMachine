@@ -17,14 +17,11 @@ namespace VendingMachine
             {
                 DisplayAvailableMoney();
                 DisplaySodaCost();
-                while (playerInput != "stop")
-                {
-                    AskPlayerForMoney();
-                    playerInput = Console.ReadLine();
-                    player.ManageMoney(playerInput, sodaMachine);
-                    DisplayAvailableMoney();
-                    sodaMachine.InsertedCoins(playerInput);
-                }
+                AskPlayerForMoney();
+                playerInput = Console.ReadLine();
+                Console.Clear();
+                player.ManageMoney(playerInput, sodaMachine);
+                sodaMachine.InsertedCoins(playerInput);
             }
         }
         public void AskPlayerForMoney()
@@ -37,7 +34,7 @@ namespace VendingMachine
         }
         public void DisplaySodaCost()
         {
-            Console.WriteLine("Soda Machine costs: \nGrape - 60 cents\nOrange - 35 cents\nLemon - 6 cents");
+            Console.WriteLine("Soda Machine costs (type desired drink to attempt to buy): \ngrape - 60 cents\norange - 35 cents\nlemon - 6 cents");
         }
         public void RemoveCoinFromWallet(string playerInput)
         {

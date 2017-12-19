@@ -23,7 +23,11 @@ namespace VendingMachine
             if (playerInput == "cancel")
             {
                 Console.WriteLine("\n\n****Transaction canceled.  Refunding money.****\n\n");
-                ReturnChange(sodaMachine);
+                sodaMachine.ReturnChange(wallet);
+            }
+            else if (playerInput == "grape" || playerInput == "orange" || playerInput  == "lemon")
+            {
+                sodaMachine.BuySoda(playerInput, wallet);
             }
             else
             {
@@ -50,21 +54,6 @@ namespace VendingMachine
                     sodaMachine.insertedCoins.Add(change);
                 }
             }
-        }
-        private void ReturnChange(SodaMachine sodaMachine)
-        {
-            foreach (Money coin in sodaMachine.insertedCoins)
-            {
-                if (coin.worth == penny.worth)
-                    wallet.pennies.Add(penny);
-                if (coin.worth == nickel.worth)
-                    wallet.nickels.Add(nickel);
-                if (coin.worth == dime.worth)
-                    wallet.dimes.Add(dime);
-                if (coin.worth == quarter.worth)
-                    wallet.quarters.Add(quarter);
-            }
-            sodaMachine.ClearInsertedCoins();
         }
     }
 }
