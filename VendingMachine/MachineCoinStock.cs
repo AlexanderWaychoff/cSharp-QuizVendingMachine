@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VendingMachine
 {
-    public class Wallet : Money
+    public class MachineCoinStock
     {
         Penny penny = new Penny();
         Nickel nickel = new Nickel();
@@ -16,7 +16,7 @@ namespace VendingMachine
         public List<Money> nickels = new List<Money>();
         public List<Money> dimes = new List<Money>();
         public List<Money> quarters = new List<Money>();
-        public Wallet(int pennyCount, int nickelCount, int dimeCount, int quarterCount)
+        public MachineCoinStock(int pennyCount, int nickelCount, int dimeCount, int quarterCount)
         {
             for (int i = 0; i < pennyCount; i++)
                 pennies.Add(penny);
@@ -27,6 +27,5 @@ namespace VendingMachine
             for (int l = 0; l < quarterCount; l++)
                 quarters.Add(quarter);
         }
-
     }
 }
