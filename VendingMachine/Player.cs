@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace VendingMachine
 {
-    class Program
+    public class Player
     {
-        static void Main(string[] args)
-        {
-            PlayGame game = new PlayGame();
-            game.RunGame();
-        }
+        public Wallet wallet = new Wallet(50, 20, 10, 20);
+
     }
 }

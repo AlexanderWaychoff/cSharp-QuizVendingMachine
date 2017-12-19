@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace VendingMachine
 {
-    class Program
+    class Penny : Money
     {
-        static void Main(string[] args)
+        public string amount;
+        public double worth;
+        public Penny()
         {
-            PlayGame game = new PlayGame();
-            game.RunGame();
+            this.amount = "penny";
+            this.worth = 0.01;
         }
     }
 }

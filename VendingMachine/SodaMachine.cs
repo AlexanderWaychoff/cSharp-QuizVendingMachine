@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace VendingMachine
 {
-    class Program
+    class SodaMachine
     {
-        static void Main(string[] args)
-        {
-            PlayGame game = new PlayGame();
-            game.RunGame();
-        }
     }
 }
