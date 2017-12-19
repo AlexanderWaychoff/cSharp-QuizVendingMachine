@@ -9,10 +9,10 @@ namespace VendingMachine
     public class Player
     {
         public Wallet wallet = new Wallet(250, 320, 110, 420);
-        private Money penny;
-        private Money nickel;
-        private Money dime;
-        private Money quarter;
+        private Penny penny = new Penny();
+        private Nickel nickel = new Nickel();
+        private Dime dime = new Dime();
+        private Quarter quarter = new Quarter();
 
         public Player()
         {
@@ -20,26 +20,51 @@ namespace VendingMachine
         }
         public void ManageMoney(string playerInput, SodaMachine sodaMachine)
         {
-            if(playerInput == "penny")
+            if (playerInput == "cancel")
             {
-                wallet.pennies.RemoveAt(0);
-                sodaMachine.insertedCoins.Add(penny);
+                Console.WriteLine("\n\n****Transaction canceled.  Refunding money.****\n\n");
+                ReturnChange(sodaMachine);
             }
-            if (playerInput == "nickel")
+            else
             {
-                wallet.nickels.RemoveAt(0);
-                sodaMachine.insertedCoins.Add(nickel);
+                Money change = new Money();
+                change = change.DetermineMoney(playerInput);
+                if (change.worth == penny.worth)
+                {
+                    wallet.pennies.RemoveAt(0);
+                    sodaMachine.insertedCoins.Add(change);
+                }
+                if (change.worth == nickel.worth)
+                {
+                    wallet.nickels.RemoveAt(0);
+                    sodaMachine.insertedCoins.Add(change);
+                }
+                if (change.worth == dime.worth)
+                {
+                    wallet.dimes.RemoveAt(0);
+                    sodaMachine.insertedCoins.Add(change);
+                }
+                if (change.worth == quarter.worth)
+                {
+                    wallet.quarters.RemoveAt(0);
+                    sodaMachine.insertedCoins.Add(change);
+                }
             }
-            if (playerInput == "dime")
+        }
+        private void ReturnChange(SodaMachine sodaMachine)
+        {
+            foreach (Money coin in sodaMachine.insertedCoins)
             {
-                wallet.dimes.RemoveAt(0);
-                sodaMachine.insertedCoins.Add(dime);
+                if (coin.worth == penny.worth)
+                    wallet.pennies.Add(penny);
+                if (coin.worth == nickel.worth)
+                    wallet.nickels.Add(nickel);
+                if (coin.worth == dime.worth)
+                    wallet.dimes.Add(dime);
+                if (coin.worth == quarter.worth)
+                    wallet.quarters.Add(quarter);
             }
-            if (playerInput == "quarter")
-            {
-                wallet.quarters.RemoveAt(0);
-                sodaMachine.insertedCoins.Add(quarter);
-            }
+            sodaMachine.ClearInsertedCoins();
         }
     }
 }

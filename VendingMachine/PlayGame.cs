@@ -23,6 +23,7 @@ namespace VendingMachine
                     playerInput = Console.ReadLine();
                     player.ManageMoney(playerInput, sodaMachine);
                     DisplayAvailableMoney();
+                    sodaMachine.InsertedCoins(playerInput);
                 }
             }
         }

@@ -8,24 +8,40 @@ namespace VendingMachine
 {
     public class Money
     {
-        Money change;
+        public Money change;
+        public string amount;
+        public double worth;
+        public Money()
+        {
+            this.amount = "";
+            this.worth = 0;
+        }
         public Money DetermineMoney(string userInput)
         {
+            change = new Money();
             if (userInput == "penny")
             {
-                change = new Penny();
+                change.amount = "penny";
+                change.worth = 0.01;
+                return change;
             }
             else if(userInput == "nickel")
             {
-                change = new Nickel();
+                change.amount = "nickel";
+                change.worth = 0.05;
+                return change;
             }
             else if (userInput == "dime")
             {
-                change = new Dime();
+                change.amount = "dime";
+                change.worth = 0.10;
+                return change;
             }
             else if (userInput == "quarter")
             {
-                change = new Quarter();
+                change.amount = "quarter";
+                change.worth = 0.25;
+                return change;
             }
             return change;
         }

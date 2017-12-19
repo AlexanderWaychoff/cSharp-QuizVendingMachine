@@ -9,32 +9,45 @@ namespace VendingMachine
     public class SodaMachine
     {
         public List<Money> insertedCoins = new List<Money>();
-        private Money penny;
-        private Money nickel;
-        private Money dime;
-        private Money quarter;
-        private int pennies = 0;
-        private int nickels = 0;
-        private int dimes = 0;
-        private int quarters = 0;
+        private Penny penny = new Penny();
+        private Nickel nickel = new Nickel();
+        private Dime dime = new Dime();
+        private Quarter quarter = new Quarter();
+        public int pennies = 0;
+        public int nickels = 0;
+        public int dimes = 0;
+        public int quarters = 0;
         public SodaMachine()
         {
             MachineCoinStock AvailableChange = new MachineCoinStock(50, 20, 10, 20);
         }
-        public void InsertedCoins()
+        public void InsertedCoins(string playerInput)
         {
-            foreach (var coin in insertedCoins)
+            pennies = 0;
+            nickels = 0;
+            dimes = 0;
+            quarters = 0;
+            foreach (Money coin in insertedCoins)
             {
-                if (coin == penny)
+                if (coin.worth == penny.worth)
                     pennies += 1;
-                if (coin == nickel)
+                if (coin.worth == nickel.worth)
                     nickels += 1;
-                if (coin == dime)
+                if (coin.worth == dime.worth)
                     dimes += 1;
-                if (coin == quarter)
+                if (coin.worth == quarter.worth)
                     quarters += 1;
             }
             Console.WriteLine("You have inserted {0} pennies, {1} nickels, {2} dimes and {3} quarters.", pennies, nickels, dimes, quarters);
+            Console.WriteLine(insertedCoins.Count);
+        }
+        public void ClearInsertedCoins()
+        {
+            pennies = 0;
+            nickels = 0;
+            dimes = 0;
+            quarters = 0;
+            insertedCoins.Clear();
         }
     }
 }
